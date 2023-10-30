@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:11.1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: notSecureChangeMe
+    networks:
+      - net
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    networks:
+      - net
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=notSecureChangeMe
+      - MEMORY_LIMIT=4G
+      - UPLOAD_LIMIT=1G
+
+networks:
+  net:
+    driver: bridge
